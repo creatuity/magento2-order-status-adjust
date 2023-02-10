@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Creatuity\OrderStatusAdjust\Model\Container\CalculatedOrderContainerInterface"
+                type="Creatuity\OrderStatusAdjust\Model\Container\CalculatedOrderContainerInterface"
+    />
+
+    <type name="Magento\Sales\Model\Order">
+        <plugin name="creatuity_order_status_adjust_plugin"
+                type="Creatuity\OrderStatusAdjust\Plugin\OrderStatusPlugin"
+                sortOrder="99999999"
+        />
+    </type>
+</config>
