@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Creatuity_OrderStatusAdjust::order_status_adjust"
+             title="Order Status Adjust"
+             module="Creatuity_OrderStatusAdjust"
+             parent="Magento_Backend::stores_settings"
+             sortOrder="1000"
+             action="order_status_adjust/index/index"
+             dependsOnModule="Magento_Sales"
+             resource="Magento_Backend::admin"
+        />
+    </menu>
+</config>
