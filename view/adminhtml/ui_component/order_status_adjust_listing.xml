@@ -15,27 +15,19 @@
             </item>
         </item>
     </argument>
-    <dataSource name="order_status_adjust_listing_data_source">
-        <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Creatuity\OrderStatusAdjust\DataProvider\DataProvider</argument>
-            <argument name="name" xsi:type="string">order_status_adjust_listing_data_source</argument>
-            <argument name="primaryFieldName" xsi:type="string">rule_id</argument>
-            <argument name="requestFieldName" xsi:type="string">id</argument>
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
-                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="cacheRequests" xsi:type="boolean">false</item>
-                    </item>
-                </item>
-            </argument>
-        </argument>
-        <argument name="data" xsi:type="array">
-            <item name="js_config" xsi:type="array">
-                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
-            </item>
-        </argument>
+    <dataSource name="order_status_adjust_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">rule_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <dataProvider class="Magento\Cms\Ui\Component\DataProvider" name="order_status_adjust_listing_data_source">
+            <settings>
+                <requestFieldName>rule_id</requestFieldName>
+                <primaryFieldName>rule_id</primaryFieldName>
+            </settings>
+        </dataProvider>
     </dataSource>
     <container name="listing_top">
         <argument name="data" xsi:type="array">
@@ -123,7 +115,7 @@
                     <item name="resizeEnabled" xsi:type="boolean">false</item>
                     <item name="resizeDefaultWidth" xsi:type="string">55</item>
                     <item name="indexField" xsi:type="string">rule_id</item>
-                    <item name="sortOrder" xsi:type="number">0</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
                 </item>
             </argument>
         </selectionsColumn>
@@ -133,7 +125,9 @@
                     <item name="filter" xsi:type="string">textRange</item>
                     <item name="sorting" xsi:type="string">asc</item>
                     <item name="label" xsi:type="string" translate="true">Rule Id</item>
-                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">100</item>
                 </item>
             </argument>
         </column>
@@ -142,7 +136,7 @@
                 <item name="options" xsi:type="array">
                     <item name="0" xsi:type="array">
                         <item name="label" xsi:type="string">Enabled</item>
-                        <item name="sortOrder" xsi:type="number">45</item>
+                        <item name="sortOrder" xsi:type="number">30</item>
                         <item name="value" xsi:type="string">1</item>
                     </item>
                     <item name="1" xsi:type="array">
@@ -156,6 +150,8 @@
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
                     <item name="dataType" xsi:type="string">select</item>
                     <item name="label" xsi:type="string" translate="true">Status</item>
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">100</item>
                 </item>
             </argument>
         </column>
@@ -164,8 +160,19 @@
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
                     <item name="label" xsi:type="string" translate="true">Rule Name</item>
-                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
                     <item name="resizeEnabled" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </column>
+        <column name="order_status">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Set Order Status</item>
+                    <item name="sortOrder" xsi:type="number">50</item>
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">150</item>
                 </item>
             </argument>
         </column>
@@ -175,7 +182,7 @@
                     <item name="resizeEnabled" xsi:type="boolean">true</item>
                     <item name="resizeDefaultWidth" xsi:type="string">107</item>
                     <item name="indexField" xsi:type="string">rule_id</item>
-                    <item name="sortOrder" xsi:type="number">120</item>
+                    <item name="sortOrder" xsi:type="number">60</item>
                 </item>
             </argument>
         </actionsColumn>

@@ -40,7 +40,7 @@ class Save extends \Creatuity\OrderStatusAdjust\Controller\Adminhtml\Index\Rule
                     $this->messageManager->addErrorMessage($errorMessage);
                 }
                 $this->_session->setPageData($data);
-                $this->_redirect('order_status_adjust/*/edit', ['id' => $model->getId()]);
+                $this->_redirect('order_status_adjust/*/edit', ['rule_id' => $model->getId()]);
                 return;
             }
 
@@ -53,7 +53,7 @@ class Save extends \Creatuity\OrderStatusAdjust\Controller\Adminhtml\Index\Rule
             $this->messageManager->addSuccessMessage(__('You saved the rule.'));
             $this->_session->setPageData(false);
             if ($this->getRequest()->getParam('back')) {
-                $this->_redirect('order_status_adjust/*/edit', ['id' => $model->getId()]);
+                $this->_redirect('order_status_adjust/*/edit', ['rule_id' => $model->getId()]);
                 return;
             }
             $this->_redirect('order_status_adjust/*/');
@@ -62,7 +62,7 @@ class Save extends \Creatuity\OrderStatusAdjust\Controller\Adminhtml\Index\Rule
             $this->messageManager->addErrorMessage($e->getMessage());
             $id = (int)$this->getRequest()->getParam('rule_id');
             if (!empty($id)) {
-                $this->_redirect('order_status_adjust/*/edit', ['id' => $id]);
+                $this->_redirect('order_status_adjust/*/edit', ['rule_id' => $id]);
             } else {
                 $this->_redirect('order_status_adjust/*/new');
             }

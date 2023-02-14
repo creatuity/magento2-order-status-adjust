@@ -2,8 +2,8 @@
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">order_status_adjust_form.order_status_adjust_listing_data_source</item>
-            <item name="deps" xsi:type="string">order_status_adjust_form.order_status_adjust_listing_data_source</item>
+            <item name="provider" xsi:type="string">order_status_adjust_form.order_status_adjust_form_data_source</item>
+            <item name="deps" xsi:type="string">order_status_adjust_form.order_status_adjust_form_data_source</item>
         </item>
         <item name="label" xsi:type="string" translate="true">General Information</item>
         <item name="config" xsi:type="array">
@@ -19,23 +19,39 @@
         </item>
         <item name="template" xsi:type="string">templates/form/collapsible</item>
     </argument>
-    <dataSource name="order_status_adjust_listing_data_source">
-        <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Creatuity\OrderStatusAdjust\DataProvider\DataProvider</argument>
-            <argument name="name" xsi:type="string">order_status_adjust_listing_data_source</argument>
-            <argument name="primaryFieldName" xsi:type="string">rule_id</argument>
-            <argument name="requestFieldName" xsi:type="string">rule_id</argument>
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="submit_url" xsi:type="url" path="*/*/save"/>
-                </item>
-            </argument>
-        </argument>
+<!--    <dataSource name="order_status_adjust_form_data_source">-->
+<!--        <argument name="dataProvider" xsi:type="configurableObject">-->
+<!--            <argument name="class" xsi:type="string">Creatuity\OrderStatusAdjust\DataProvider\DataProvider</argument>-->
+<!--            <argument name="name" xsi:type="string">order_status_adjust_data_source</argument>-->
+<!--            <argument name="primaryFieldName" xsi:type="string">rule_id</argument>-->
+<!--            <argument name="requestFieldName" xsi:type="string">rule_id</argument>-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
+<!--                    <item name="submit_url" xsi:type="url" path="*/*/save"/>-->
+<!--                </item>-->
+<!--            </argument>-->
+<!--        </argument>-->
+<!--        <argument name="data" xsi:type="array">-->
+<!--            <item name="js_config" xsi:type="array">-->
+<!--                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>-->
+<!--            </item>-->
+<!--        </argument>-->
+<!--    </dataSource>-->
+    <dataSource name="order_status_adjust_form_data_source">
         <argument name="data" xsi:type="array">
             <item name="js_config" xsi:type="array">
                 <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
             </item>
         </argument>
+        <settings>
+            <submitUrl path="*/*/save"/>
+        </settings>
+        <dataProvider class="\Creatuity\OrderStatusAdjust\Ui\DataProvider\DataProvider" name="order_status_adjust_form_data_source">
+            <settings>
+                <requestFieldName>rule_id</requestFieldName>
+                <primaryFieldName>rule_id</primaryFieldName>
+            </settings>
+        </dataProvider>
     </dataSource>
     <fieldset name="rule_data">
         <argument name="data" xsi:type="array">
@@ -111,7 +127,7 @@
         <field name="order_status" formElement="select">
             <settings>
                 <dataType>text</dataType>
-                <label translate="true">Order Status</label>
+                <label translate="true">Set Order Status</label>
                 <dataScope>order_status</dataScope>
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">true</rule>
