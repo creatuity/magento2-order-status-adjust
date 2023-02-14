@@ -22,7 +22,7 @@
             </storageConfig>
             <updateUrl path="mui/index/render"/>
         </settings>
-        <dataProvider class="Magento\Cms\Ui\Component\DataProvider" name="order_status_adjust_listing_data_source">
+        <dataProvider class="Creatuity\OrderStatusAdjust\Ui\DataProvider\ListingDataProvider" name="order_status_adjust_listing_data_source">
             <settings>
                 <requestFieldName>rule_id</requestFieldName>
                 <primaryFieldName>rule_id</primaryFieldName>
