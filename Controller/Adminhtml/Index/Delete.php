@@ -13,7 +13,7 @@ class Delete extends \Creatuity\OrderStatusAdjust\Controller\Adminhtml\Index\Rul
 {
     public function execute(): ResponseInterface
     {
-        $id = $this->getRequest()->getParam('id');
+        $id = $this->getRequest()->getParam('rule_id');
         if ($id) {
             try {
                 /** @var Rule $model */

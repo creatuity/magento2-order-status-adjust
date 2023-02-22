@@ -36,6 +36,7 @@ class DataProvider extends AbstractDataProvider
         /** @var Rule[] $items */
         $items = $this->collection->getItems();
 
+        $this->loadedData = [];
         foreach ($items as $rule) {
             $this->loadedData[$rule->getId()] = $rule->getData();
         }

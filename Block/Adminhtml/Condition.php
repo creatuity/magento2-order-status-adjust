@@ -85,9 +85,11 @@ class Condition extends Generic implements TabInterface
             $model = $this->ruleFactory->create();
             $model->load($id);
         }
+
+        //$formName = $model->getConditions()->getFormName() ?? 'order_status_adjust_form';
         $conditionsFieldSetId = $model->getConditionsFieldSetId($formName);
         $newChildUrl = $this->getUrl(
-            'catalog_rule/promo_catalog/newConditionHtml/form/' . $conditionsFieldSetId,
+            'order_status_adjust/index/newConditionHtml/form/' . $conditionsFieldSetId,
             ['form_namespace' => $formName]
         );
 
