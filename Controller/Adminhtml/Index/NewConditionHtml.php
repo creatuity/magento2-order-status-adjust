@@ -4,10 +4,20 @@ declare(strict_types=1);
 
 namespace Creatuity\OrderStatusAdjust\Controller\Adminhtml\Index;
 
+use Creatuity\OrderStatusAdjust\Api\Data\RuleInterfaceFactory;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Rule\Model\Condition\AbstractCondition;
 
-class NewConditionHtml extends Rule
+class NewConditionHtml extends Action
 {
+    public function __construct(
+        Context $context,
+        private readonly RuleInterfaceFactory $ruleFactory
+    ) {
+        parent::__construct($context);
+    }
+
     public function execute(): void
     {
         $formName = $this->getRequest()->getParam('form_namespace');
@@ -47,7 +57,7 @@ class NewConditionHtml extends Rule
     {
         $requestJsFormName = $this->getRequest()->getParam('form');
         $actualJsFormName = $this->getJsFormObjectName($model->getFormName());
-        if ($requestJsFormName === $actualJsFormName) { //new
+        if ($requestJsFormName === $actualJsFormName) {
             $model->setJsFormObject($actualJsFormName);
         }
     }
@@ -55,5 +65,10 @@ class NewConditionHtml extends Rule
     private function getJsFormObjectName(string $formName): string
     {
         return $formName . 'rule_conditions_fieldset_';
+    }
+
+    protected function _isAllowed(): bool
+    {
+        return $this->_authorization->isAllowed('Magento_Backend::admin');
     }
 }

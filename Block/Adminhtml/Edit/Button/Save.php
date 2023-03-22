@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Creatuity\OrderStatusAdjust\Block\Adminhtml\Edit\Button;
 
+use Magento\Framework\Phrase;
 use Magento\Ui\Component\Control\Container;
 
 class Save extends Generic
 {
+    /**
+     * @return array<string, Phrase|string|int|array>
+     */
     public function getButtonData(): array
     {
         return [
@@ -33,6 +37,9 @@ class Save extends Generic
         ];
     }
 
+    /**
+     * @return array<string, Phrase|string|int|array>
+     */
     private function getOptions(): array
     {
         $options[] = [

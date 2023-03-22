@@ -4,89 +4,92 @@ declare(strict_types=1);
 
 namespace Creatuity\OrderStatusAdjust\Controller\Adminhtml\Index;
 
-use Creatuity\OrderStatusAdjust\Model\Rule;
-use Magento\Framework\DataObject;
+use Creatuity\OrderStatusAdjust\Model\Handler\LoadHandler;
+use Creatuity\OrderStatusAdjust\Model\Handler\SaveHandler;
+use Creatuity\OrderStatusAdjust\Model\Handler\ValidationHandler;
+use Exception;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Stdlib\DateTime\Filter\Date;
+use Psr\Log\LoggerInterface;
+use Zend_Filter_Input;
 
-class Save extends \Creatuity\OrderStatusAdjust\Controller\Adminhtml\Index\Rule
+class Save extends Action
 {
-    public function execute(): void
+    public function __construct(
+        Context $context,
+        private readonly Date $dateFilter,
+        private readonly LoggerInterface $logger,
+        private readonly SaveHandler $saveHandler,
+        private readonly ValidationHandler $validationHandler,
+        private readonly LoadHandler $loadHandler
+    ) {
+        parent::__construct($context);
+    }
+
+    public function execute(): ResponseInterface
     {
-        if (!$this->getRequest()->getPostValue()) {
-            $this->_redirect('order_status_adjust/*/');
+        $id = $this->getRequest()->getParam('rule_id');
+        $data = $this->getRequest()->getPostValue();
+
+        if (empty($data)) {
+            return $this->_redirect('order_status_adjust/*/');
         }
 
-        try {
-            /** @var $model Rule */
-            $model = $this->ruleFactory->create();
-            $this->_eventManager->dispatch(
-                'adminhtml_controller_order_status_adjust_rule_prepare_save',
-                ['request' => $this->getRequest()]
-            );
-            $data = $this->getRequest()->getPostValue();
-            $inputFilter = new \Zend_Filter_Input(
-                ['from_date' => $this->dateFilter, 'to_date' => $this->dateFilter],
-                [],
-                $data
-            );
-            $data = $inputFilter->getUnescaped();
-            $id = $this->getRequest()->getParam('rule_id');
-            if ($id) {
-                $model->load($id);
-            }
+        $inputFilter = new Zend_Filter_Input(
+            ['from_date' => $this->dateFilter, 'to_date' => $this->dateFilter],
+            [],
+            $data
+        );
+        $data = $inputFilter->getUnescaped();
 
-            $validateResult = $model->validateData(new DataObject($data));
-            if ($validateResult !== true) {
-                foreach ($validateResult as $errorMessage) {
-                    $this->messageManager->addErrorMessage($errorMessage);
+        $rule = $this->loadHandler->execute($id);
+
+        try {
+            $validationErrors = $this->validationHandler->execute($rule, $data);
+            if (!empty($validationErrors)) {
+                foreach ($validationErrors as $error) {
+                    $this->messageManager->addErrorMessage($error);
                 }
                 $this->_session->setPageData($data);
-                $this->_redirect('order_status_adjust/*/edit', ['rule_id' => $model->getId()]);
-                return;
+
+                return $this->_redirect('order_status_adjust/*/edit', ['rule_id' => $rule->getId()]);
             }
 
-            $data = $this->prepareData($data);
-            $model->loadPost($data);
+            $this->saveHandler->execute(
+                $rule,
+                $data
+            );
 
-            $this->_session->setPageData($model->getData());
+            $this->_session->setPageData($rule->getData());
 
-            $model->save();
             $this->messageManager->addSuccessMessage(__('You saved the rule.'));
             $this->_session->setPageData(false);
+
             if ($this->getRequest()->getParam('back')) {
-                $this->_redirect('order_status_adjust/*/edit', ['rule_id' => $model->getId()]);
-                return;
+                return $this->_redirect('order_status_adjust/*/edit', ['rule_id' => $rule->getId()]);
             }
-            $this->_redirect('order_status_adjust/*/');
-            return;
-        } catch (\Magento\Framework\Exception\LocalizedException $e) {
-            $this->messageManager->addErrorMessage($e->getMessage());
-            $id = (int)$this->getRequest()->getParam('rule_id');
-            if (!empty($id)) {
-                $this->_redirect('order_status_adjust/*/edit', ['rule_id' => $id]);
-            } else {
-                $this->_redirect('order_status_adjust/*/new');
-            }
-            return;
-        } catch (\Exception $e) {
+
+            return $this->_redirect('order_status_adjust/*/');
+        } catch (Exception $e) {
             $this->messageManager->addErrorMessage(
                 __('Something went wrong while saving the rule data. Please review the error log.')
             );
             $this->logger->critical($e);
             $data = !empty($data) ? $data : [];
             $this->_session->setPageData($data);
-            $this->_redirect('order_status_adjust/*/edit', ['id' => $this->getRequest()->getParam('rule_id')]);
-            return;
+            $id = (int)$this->getRequest()->getParam('rule_id');
+            if (!empty($id)) {
+                return $this->_redirect('order_status_adjust/*/edit', ['rule_id' => $id]);
+            } else {
+                return $this->_redirect('order_status_adjust/*/new');
+            }
         }
     }
 
-    private function prepareData(array $data): array
+    protected function _isAllowed(): bool
     {
-        if (isset($data['rule']['conditions'])) {
-            $data['conditions'] = $data['rule']['conditions'];
-        }
-
-        unset($data['rule']);
-
-        return $data;
+        return $this->_authorization->isAllowed('Magento_Backend::admin');
     }
 }

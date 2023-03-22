@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Creatuity\OrderStatusAdjust\Model\Condition\Type;
 
-use Magento\Directory\Model\Config\Source\Allregion as RegionList;
-use Magento\Directory\Model\Config\Source\Country as CountryList;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Payment\Model\Config\Source\Allmethods as PaymentMethodList;
@@ -13,6 +11,8 @@ use Magento\Rule\Model\Condition\AbstractCondition;
 use Magento\Rule\Model\Condition\Context;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Shipping\Model\Config\Source\Allmethods as ShippingMethodList;
+use Magento\Customer\Model\Config\Source\Group as CustomerGroupList;
+use Magento\Config\Model\Config\Source\Store as StoreList;
 
 class Order extends AbstractCondition
 {
@@ -28,6 +28,17 @@ class Order extends AbstractCondition
     private const ATTRIBUTE_PAYMENT_METHOD ='payment_method';
     private const ATTRIBUTE_SHIPPING_METHOD = 'shipping_method';
 
+    private const ATTRIBUTE_ORDER_CURRENCY_CODE = 'order_currency_code';
+    private const ATTRIBUTE_STORE_ID = 'store_id';
+    private const ATTRIBUTE_COUPON_CODE = 'coupon_code';
+    private const ATTRIBUTE_TOTAL_ITEM_COUNT = 'total_item_count';
+
+    private const ATTRIBUTE_CUSTOMER_IS_GUEST = 'customer_is_guest';
+    private const ATTRIBUTE_CUSTOMER_GROUP_ID = 'customer_group_id';
+    private const ATTRIBUTE_CUSTOMER_TAXVAT = 'customer_taxvat';
+
+    private const ATTRIBUTE_REMOTE_IP = 'remote_ip';
+
     private const FIELD_INPUT_SELECT = 'select';
     private const FIELD_INPUT_STRING = 'string';
     private const FIELD_INPUT_NUMERIC = 'numeric';
@@ -37,10 +48,10 @@ class Order extends AbstractCondition
 
     public function __construct(
         Context $context,
-        private readonly CountryList $countryList,
-        private readonly RegionList $regionList,
         private readonly ShippingMethodList $shippingMethodList,
         private readonly PaymentMethodList $paymentMethodList,
+        private readonly CustomerGroupList $customerGroupList,
+        private readonly StoreList $storeList,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -60,6 +71,17 @@ class Order extends AbstractCondition
             self::ATTRIBUTE_WEIGHT => __('Total Weight'),
             self::ATTRIBUTE_PAYMENT_METHOD => __('Payment Method'),
             self::ATTRIBUTE_SHIPPING_METHOD => __('Shipping Method'),
+
+            self::ATTRIBUTE_ORDER_CURRENCY_CODE => __('Order Currency Code'),
+            self::ATTRIBUTE_STORE_ID => __('Order Store ID'),
+            self::ATTRIBUTE_COUPON_CODE => __('Coupon Code'),
+            self::ATTRIBUTE_TOTAL_ITEM_COUNT => __('Total Item Count'),
+
+            self::ATTRIBUTE_CUSTOMER_IS_GUEST => __('Customer is Guest'),
+            self::ATTRIBUTE_CUSTOMER_GROUP_ID => __('Customer Group ID'),
+            self::ATTRIBUTE_CUSTOMER_TAXVAT => __('Customer Tax Vat'),
+
+            self::ATTRIBUTE_REMOTE_IP => __('Remote IP'),
         ];
 
         $this->setAttributeOption($attributes);
@@ -87,9 +109,13 @@ class Order extends AbstractCondition
             case self::ATTRIBUTE_BASE_GIFT_CARDS_AMOUNT:
             case self::ATTRIBUTE_TOTAL_QTY_ORDERED:
             case self::ATTRIBUTE_WEIGHT:
+            case self::ATTRIBUTE_TOTAL_ITEM_COUNT:
+            case self::ATTRIBUTE_CUSTOMER_IS_GUEST:
                 return self::FIELD_INPUT_NUMERIC;
             case self::ATTRIBUTE_PAYMENT_METHOD:
             case self::ATTRIBUTE_SHIPPING_METHOD:
+            case self::ATTRIBUTE_CUSTOMER_GROUP_ID:
+            case self::ATTRIBUTE_STORE_ID:
                 return self::FIELD_INPUT_SELECT;
         }
 
@@ -101,6 +127,8 @@ class Order extends AbstractCondition
         switch ($this->getAttribute()) {
             case self::ATTRIBUTE_PAYMENT_METHOD:
             case self::ATTRIBUTE_SHIPPING_METHOD:
+            case self::ATTRIBUTE_CUSTOMER_GROUP_ID:
+            case self::ATTRIBUTE_STORE_ID:
                 return self::FIELD_VALUE_SELECT;
         }
 
@@ -116,6 +144,12 @@ class Order extends AbstractCondition
                     break;
                 case self::ATTRIBUTE_PAYMENT_METHOD:
                     $options = $this->paymentMethodList->toOptionArray();
+                    break;
+                case self::ATTRIBUTE_CUSTOMER_GROUP_ID:
+                    $options = $this->customerGroupList->toOptionArray();
+                    break;
+                case self::ATTRIBUTE_STORE_ID:
+                    $options = $this->storeList->toOptionArray();
                     break;
                 default:
                     $options = [];

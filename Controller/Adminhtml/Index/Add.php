@@ -17,4 +17,9 @@ class Add extends Action
 
         return $resultPage;
     }
+
+    protected function _isAllowed(): bool
+    {
+        return $this->_authorization->isAllowed('Magento_Backend::admin');
+    }
 }
