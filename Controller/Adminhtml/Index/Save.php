@@ -30,7 +30,7 @@ class Save extends Action
 
     public function execute(): ResponseInterface
     {
-        $id = $this->getRequest()->getParam('rule_id');
+        $id = (int)$this->getRequest()->getParam('rule_id');
         $data = $this->getRequest()->getPostValue();
 
         if (empty($data)) {

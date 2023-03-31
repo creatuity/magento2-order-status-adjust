@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Creatuity\OrderStatusAdjust\Model;
 
+use Magento\Framework\Data\Collection;
 use Magento\Sales\Api\Data\OrderInterface;
 use Creatuity\OrderStatusAdjust\Model\ResourceModel\Rule\CollectionFactory as RuleCollectionFactory;
 
@@ -17,7 +18,8 @@ class RulesProcessor
 
     public function execute(OrderInterface $order): bool
     {
-        $collection = $this->ruleCollectionFactory->create();
+        $collection = $this->ruleCollectionFactory->create()
+            ->setOrder('sort_order', Collection::SORT_ORDER_ASC);
 
         /** @var Rule $rule */
         foreach ($collection->getItems() as $rule) {
