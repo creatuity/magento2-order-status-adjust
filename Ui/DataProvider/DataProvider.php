@@ -10,6 +10,9 @@ use Magento\Ui\DataProvider\AbstractDataProvider;
 
 class DataProvider extends AbstractDataProvider
 {
+    /**
+     * @var Rule[] $loadedData
+     */
     private array $loadedData;
 
     public function __construct(
