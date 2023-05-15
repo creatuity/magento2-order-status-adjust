@@ -4,10 +4,17 @@ declare(strict_types=1);
 
 namespace Creatuity\OrderStatusAdjust\Block\Adminhtml\Edit\Button;
 
+use Magento\Backend\Block\Widget\Context;
 use Magento\Framework\Phrase;
+use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 
-class Delete extends Generic
+class Delete implements ButtonProviderInterface
 {
+    public function __construct(
+        private readonly Context $context
+    ) {
+    }
+
     /**
      * @return array<string, Phrase|string|int>
      */
@@ -32,6 +39,6 @@ class Delete extends Generic
     {
         $ruleId = $this->context->getRequest()->getParam('rule_id');
 
-        return $this->getUrl('*/*/delete', ['rule_id' => $ruleId]);
+        return $this->context->getUrlBuilder()->getUrl('*/*/delete', ['rule_id' => $ruleId]);
     }
 }

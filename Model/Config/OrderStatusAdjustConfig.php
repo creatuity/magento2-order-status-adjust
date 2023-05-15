@@ -23,11 +23,6 @@ class OrderStatusAdjustConfig
         return $this->isEnabledConfig() && $this->isEnabled;
     }
 
-    public function setEnabled(bool $enabled): bool
-    {
-        return $this->isEnabled = $enabled;
-    }
-
     public function disable(): void
     {
         $this->isEnabled = false;

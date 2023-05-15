@@ -30,7 +30,11 @@ class Save extends Action
 
     public function execute(): ResponseInterface
     {
-        $id = (int)$this->getRequest()->getParam('rule_id');
+        $id = $this->getRequest()->getParam('rule_id');
+        if ($id !== null) {
+            $id = (int)$id;
+        }
+
         $data = $this->getRequest()->getPostValue();
 
         if (empty($data)) {
@@ -79,12 +83,13 @@ class Save extends Action
             $this->logger->critical($e);
             $data = !empty($data) ? $data : [];
             $this->_session->setPageData($data);
+
             $id = (int)$this->getRequest()->getParam('rule_id');
             if (!empty($id)) {
                 return $this->_redirect('order_status_adjust/*/edit', ['rule_id' => $id]);
-            } else {
-                return $this->_redirect('order_status_adjust/*/new');
             }
+
+            return $this->_redirect('order_status_adjust/*/new');
         }
     }
 

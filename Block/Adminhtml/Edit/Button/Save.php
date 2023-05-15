@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Creatuity\OrderStatusAdjust\Block\Adminhtml\Edit\Button;
 
 use Magento\Framework\Phrase;
+use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 use Magento\Ui\Component\Control\Container;
 
-class Save extends Generic
+class Save implements ButtonProviderInterface
 {
     /**
      * @return array<string, Phrase|string|int|array>

@@ -12,4 +12,20 @@
         />
     </type>
 
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="order_status_adjust_listing_data_source" xsi:type="string">Creatuity\OrderStatusAdjust\Model\ResourceModel\Rule\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Creatuity\OrderStatusAdjust\Model\ResourceModel\Rule\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">order_status_adjust_rule</argument>
+            <argument name="eventPrefix" xsi:type="string">order_status_adjust_rule_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">order_status_adjust_rule_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">\Creatuity\OrderStatusAdjust\Model\ResourceModel\Rule</argument>
+        </arguments>
+    </type>
+
 </config>

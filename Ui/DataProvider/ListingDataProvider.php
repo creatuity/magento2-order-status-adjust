@@ -40,10 +40,11 @@ class ListingDataProvider extends \Magento\Framework\View\Element\UiComponent\Da
         );
     }
 
-    public function getData(): array
-    {
-        $collection = $this->ruleCollectionFactory->create();
-
-        return $collection->toArray();
-    }
+//    public function getData(): array
+//    {
+//        $search = $this->getSearchResult();
+//        //$collection = $this->ruleCollectionFactory->create();
+//
+//        return $search->getItems();
+//    }
 }

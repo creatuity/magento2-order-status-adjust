@@ -4,18 +4,23 @@ declare(strict_types=1);
 
 namespace Creatuity\OrderStatusAdjust\Model\Condition\Type;
 
+use Creatuity\OrderStatusAdjust\Model\OrderState as StateList;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Payment\Model\Config\Source\Allmethods as PaymentMethodList;
 use Magento\Rule\Model\Condition\AbstractCondition;
 use Magento\Rule\Model\Condition\Context;
 use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Model\Config\Source\Order\Status as StatusList;
 use Magento\Shipping\Model\Config\Source\Allmethods as ShippingMethodList;
 use Magento\Customer\Model\Config\Source\Group as CustomerGroupList;
 use Magento\Config\Model\Config\Source\Store as StoreList;
 
 class Order extends AbstractCondition
 {
+    private const ATTRIBUTE_STATUS = 'status';
+    private const ATTRIBUTE_STATE = 'state';
+
     private const ATTRIBUTE_BASE_SUBTOTAL_WITH_DISCOUNT = 'base_subtotal_with_discount';
     private const ATTRIBUTE_BASE_SUBTOTAL_TOTAL_INCL_TAX = 'base_subtotal_total_incl_tax';
     private const ATTRIBUTE_BASE_SUBTOTAL = 'base_subtotal';
@@ -47,12 +52,14 @@ class Order extends AbstractCondition
     private const FIELD_VALUE_SELECT = 'select';
 
     public function __construct(
-        Context $context,
+        Context                             $context,
         private readonly ShippingMethodList $shippingMethodList,
-        private readonly PaymentMethodList $paymentMethodList,
-        private readonly CustomerGroupList $customerGroupList,
-        private readonly StoreList $storeList,
-        array $data = []
+        private readonly PaymentMethodList  $paymentMethodList,
+        private readonly CustomerGroupList  $customerGroupList,
+        private readonly StoreList          $storeList,
+        private readonly StatusList         $statusList,
+        private readonly StateList          $stateList,
+        array                               $data = []
     ) {
         parent::__construct($context, $data);
     }
@@ -60,6 +67,9 @@ class Order extends AbstractCondition
     public function loadAttributeOptions(): self
     {
         $attributes = [
+            self::ATTRIBUTE_STATUS => __('Status'),
+            self::ATTRIBUTE_STATE => __('State'),
+
             self::ATTRIBUTE_BASE_SUBTOTAL_WITH_DISCOUNT => __('Subtotal (Excl. Tax)'),
             self::ATTRIBUTE_BASE_SUBTOTAL_TOTAL_INCL_TAX => __('Subtotal (Incl. Tax)'),
             self::ATTRIBUTE_BASE_SUBTOTAL => __('Subtotal'),
@@ -112,6 +122,8 @@ class Order extends AbstractCondition
             case self::ATTRIBUTE_TOTAL_ITEM_COUNT:
             case self::ATTRIBUTE_CUSTOMER_IS_GUEST:
                 return self::FIELD_INPUT_NUMERIC;
+            case self::ATTRIBUTE_STATUS:
+            case self::ATTRIBUTE_STATE:
             case self::ATTRIBUTE_PAYMENT_METHOD:
             case self::ATTRIBUTE_SHIPPING_METHOD:
             case self::ATTRIBUTE_CUSTOMER_GROUP_ID:
@@ -125,6 +137,8 @@ class Order extends AbstractCondition
     public function getValueElementType(): string
     {
         switch ($this->getAttribute()) {
+            case self::ATTRIBUTE_STATUS:
+            case self::ATTRIBUTE_STATE:
             case self::ATTRIBUTE_PAYMENT_METHOD:
             case self::ATTRIBUTE_SHIPPING_METHOD:
             case self::ATTRIBUTE_CUSTOMER_GROUP_ID:
@@ -139,6 +153,12 @@ class Order extends AbstractCondition
     {
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
+                case self::ATTRIBUTE_STATUS:
+                    $options = $this->statusList->toOptionArray();
+                    break;
+                case self::ATTRIBUTE_STATE:
+                    $options = $this->stateList->toOptionArray();
+                    break;
                 case self::ATTRIBUTE_SHIPPING_METHOD:
                     $options = $this->shippingMethodList->toOptionArray();
                     break;

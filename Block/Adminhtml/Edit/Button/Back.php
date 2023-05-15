@@ -4,10 +4,17 @@ declare(strict_types=1);
 
 namespace Creatuity\OrderStatusAdjust\Block\Adminhtml\Edit\Button;
 
+use Magento\Backend\Block\Widget\Context;
 use Magento\Framework\Phrase;
+use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 
-class Back extends Generic
+class Back implements ButtonProviderInterface
 {
+    public function __construct(
+        private readonly Context $context
+    ) {
+    }
+
     /**
      * @return array<string, Phrase|string|int>
      */
@@ -23,6 +30,6 @@ class Back extends Generic
 
     public function getBackUrl(): string
     {
-        return $this->getUrl('*/*/');
+        return $this->context->getUrlBuilder()->getUrl('*/*/');
     }
 }
