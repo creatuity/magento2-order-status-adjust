@@ -24,6 +24,11 @@ class RulesProcessor
         /** @var Rule $rule */
         foreach ($collection->getItems() as $rule) {
             /** @phpstan-ignore-next-line */
+            if (!$rule->getIsActive()) {
+                continue;
+            }
+
+            /** @phpstan-ignore-next-line */
             if (!$rule->validate($order)) {
                 continue;
             }
