@@ -2,7 +2,7 @@
     "name": "creatuity/magento2-order-status-adjust",
     "description": "Adjust Order Status to specific one if Criteria are met",
     "type": "magento2-module",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Creatuity Corp",
