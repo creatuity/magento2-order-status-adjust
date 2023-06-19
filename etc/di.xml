@@ -28,4 +28,12 @@
         </arguments>
     </type>
 
+    <type name="Creatuity\OrderStatusAdjust\Model\Condition\Combine">
+        <arguments>
+            <argument name="conditionTypes" xsi:type="array">
+                <item name="order" xsi:type="object">Creatuity\OrderStatusAdjust\Model\Condition\Type\Order</item>
+            </argument>
+        </arguments>
+    </type>
+
 </config>

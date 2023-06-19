@@ -59,3 +59,19 @@ Save rule
 ## Compatibility
 Module was developed using Adobe Commerce 2.4.5 on PHP 8.1
 It should work on any Magento Open Source or Adobe Commerce 2.4.4+ versions though.
+
+## Plugin Development
+You can easily add more Order (or any other) conditions.
+
+1. Extend `\Magento\Rule\Model\Condition\AbstractCondition` in a similar manner to how it is extended by `\Creatuity\OrderStatusAdjust\Model\Condition\Type\Order`
+2. Open di.xml and add newly created class into conditionTypes argument here:
+   ````
+   <type name="Creatuity\OrderStatusAdjust\Model\Condition\Combine">
+       <arguments>
+           <argument name="conditionTypes" xsi:type="array">
+               <item name="INSERT_TITLE" xsi:type ="object">INSERT_FULLY_QUALIFIED_CLASS_NAME_WITH_NAMESPACE</item>
+           </argument>
+       </arguments>
+   </type>
+   ````
+3. Make sure you've enabled your newly created module and regenerated static files.
