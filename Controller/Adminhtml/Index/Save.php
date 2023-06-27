@@ -13,7 +13,6 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Stdlib\DateTime\Filter\Date;
 use Psr\Log\LoggerInterface;
-use Zend_Filter_Input;
 
 class Save extends Action
 {
@@ -41,11 +40,7 @@ class Save extends Action
             return $this->_redirect('order_status_adjust/*/');
         }
 
-        $inputFilter = new Zend_Filter_Input(
-            ['from_date' => $this->dateFilter, 'to_date' => $this->dateFilter],
-            [],
-            $data
-        );
+        $inputFilter = $this->getInputFilter($data);
         $data = $inputFilter->getUnescaped();
 
         $rule = $this->loadHandler->execute($id);
@@ -91,6 +86,25 @@ class Save extends Action
 
             return $this->_redirect('order_status_adjust/*/new');
         }
+    }
+
+    private function getInputFilter(array $data): object
+    {
+        if (class_exists('Zend_Filter_Input')) {
+            $inputFilter = new \Zend_Filter_Input(
+                ['date_from' => $this->dateFilter, 'date_to' => $this->dateFilter],
+                [],
+                $data
+            );
+        } else {
+            $inputFilter = new \Magento\Framework\Filter\FilterInput(
+                ['date_from' => $this->dateFilter, 'date_to' => $this->dateFilter],
+                [],
+                $data
+            );
+        }
+
+        return $inputFilter;
     }
 
     protected function _isAllowed(): bool
