@@ -113,12 +113,58 @@
             </argument>
         </field>
     </fieldset>
+    <fieldset name="datetime">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true">Date and Time</item>
+                <item name="sortOrder" xsi:type="number">20</item>
+            </item>
+        </argument>
+
+        <field name="from_date" sortOrder="10" formElement="date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Start</item>
+                    <item name="source" xsi:type="string">task</item>
+                    <item name="options" xsi:type="array">
+                        <item name="dateFormat" xsi:type="string">yyyy-MM-dd</item>
+                        <item name="timeFormat" xsi:type="string">HH:mm</item>
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                        <item name="storeTimeZone" xsi:type="string">general/locale/timezone</item>
+                    </item>
+                    <item name="tooltip" xsi:type="array">
+                        <item name="description" xsi:type="string" translate="true">Date time in store timezone.</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="to_date" sortOrder="20" formElement="date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">End</item>
+                    <item name="source" xsi:type="string">task</item>
+                    <item name="options" xsi:type="array">
+                        <item name="dateFormat" xsi:type="string">yyyy-MM-dd</item>
+                        <item name="timeFormat" xsi:type="string">HH:mm</item>
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                        <item name="storeTimeZone" xsi:type="string">general/locale/timezone</item>
+                    </item>
+                    <item name="tooltip" xsi:type="array">
+                        <item name="description" xsi:type="string" translate="true">Date time in store timezone.</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+    </fieldset>
     <fieldset name="condition_data">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
                 <item name="collapsible" xsi:type="boolean">false</item>
                 <item name="label" xsi:type="string" translate="true">Condition</item>
-                <item name="sortOrder" xsi:type="number">20</item>
+                <item name="sortOrder" xsi:type="number">30</item>
             </item>
         </argument>
         <container name="conditions_serialized">
@@ -137,7 +183,7 @@
             <item name="config" xsi:type="array">
                 <item name="collapsible" xsi:type="boolean">false</item>
                 <item name="label" xsi:type="string" translate="true">Action</item>
-                <item name="sortOrder" xsi:type="number">30</item>
+                <item name="sortOrder" xsi:type="number">40</item>
             </item>
         </argument>
         <field name="order_status" formElement="select">
