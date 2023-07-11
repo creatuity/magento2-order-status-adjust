@@ -15,7 +15,8 @@
     "autoload": {
         "files": ["registration.php"],
         "psr-4": {
-            "Creatuity\\DevTools\\": ""
+            "Creatuity\\DevTools\\": "",
+            "Creatuity\\OrderStatusAdjust\\": ""
         }
     }
 }

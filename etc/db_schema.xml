@@ -5,8 +5,8 @@
         <column xsi:type="int" name="rule_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
         <column xsi:type="varchar" name="name" nullable="true" length="255" comment="Name"/>
         <column xsi:type="text" name="description" nullable="true" comment="Description"/>
-        <column xsi:type="date" name="from_date" comment="From"/>
-        <column xsi:type="date" name="to_date" comment="To"/>
+        <column xsi:type="datetime" name="from_date" nullable="true" comment="From"/>
+        <column xsi:type="datetime" name="to_date" nullable="true" comment="To"/>
         <column xsi:type="smallint" name="is_active" unsigned="false" nullable="false" identity="false" default="0" comment="Is Active"/>
         <column xsi:type="mediumtext" name="conditions_serialized" nullable="true" comment="Conditions Serialized"/>
         <column xsi:type="smallint" name="stop_rules_processing" unsigned="false" nullable="false" identity="false" default="1" comment="Stop Rules Processing"/>
