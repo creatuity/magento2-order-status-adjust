@@ -4,6 +4,7 @@
         <sales>
             <order_status_adjust>
                 <enabled>1</enabled>
+                <order_comment>1</order_comment>
             </order_status_adjust>
         </sales>
     </default>

@@ -12,9 +12,11 @@ use Creatuity\OrderStatusAdjust\Model\ResourceModel\Rule\CollectionFactory as Ru
 class RulesProcessor
 {
     public function __construct(
-        private readonly RuleCollectionFactory  $ruleCollectionFactory,
+        private readonly RuleCollectionFactory $ruleCollectionFactory,
         private readonly GetStateByStatus $getStateByStatus,
-        private readonly RuleDateTimeValidator $ruleDateTimeValidator
+        private readonly OrderStatusAdjusted $orderStatusAdjusted,
+        private readonly RuleDateTimeValidator $ruleDateTimeValidator,
+        private readonly OrderStatusAdjustHistory $orderStatusAdjustHistory
     ) {
     }
 
@@ -22,6 +24,7 @@ class RulesProcessor
     {
         $collection = $this->ruleCollectionFactory->create()
             ->addFieldToFilter(RuleInterface::IS_ACTIVE, ['eq' => 1])
+            ->addFieldToFilter(RuleInterface::ORDER_STATUS, ['neq' => $order->getStatus()])
             ->setOrder('sort_order', Collection::SORT_ORDER_ASC);
 
         /** @var Rule $rule */
@@ -43,13 +46,16 @@ class RulesProcessor
 
     private function applyRule(OrderInterface $order, Rule $rule): bool
     {
-        $status = $rule->getOrderStatus();
-        $state = $this->getStateByStatus->execute($status);
+        $this->orderStatusAdjusted->setStatus($rule->getOrderStatus());
+        $this->orderStatusAdjusted->setState($this->getStateByStatus->execute($rule->getOrderStatus()));
+        $this->orderStatusAdjusted->setRule($rule);
 
         /** @phpstan-ignore-next-line */
-        $order->setData('state', $state);
+        $order->setData('state', $this->orderStatusAdjusted->getState());
         /** @phpstan-ignore-next-line */
-        $order->setData('status', $status);
+        $order->setData('status', $this->orderStatusAdjusted->getStatus());
+
+        $this->orderStatusAdjustHistory->execute($order);
 
         return true;
     }
