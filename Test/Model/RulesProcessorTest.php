@@ -8,6 +8,7 @@ use Creatuity\OrderStatusAdjust\Model\GetStateByStatus;
 use Creatuity\OrderStatusAdjust\Model\ResourceModel\Rule\Collection;
 use Creatuity\OrderStatusAdjust\Model\ResourceModel\Rule\CollectionFactory;
 use Creatuity\OrderStatusAdjust\Model\Rule;
+use Creatuity\OrderStatusAdjust\Model\RuleDateTimeValidator;
 use Creatuity\OrderStatusAdjust\Model\RulesProcessor;
 use Magento\Sales\Model\Order;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -24,6 +25,7 @@ class RulesProcessorTest extends TestCase
     private GetStateByStatus|MockObject $getStateByStatus;
     private Order|MockObject $order;
     private Collection|MockObject $collection;
+    private RuleDateTimeValidator|MockObject $ruleDateTimeValidator;
 
     protected function setUp(): void
     {
@@ -31,14 +33,19 @@ class RulesProcessorTest extends TestCase
 
         $this->collectionFactory = $this->createMock(CollectionFactory::class);
         $this->collectionFactory->method('create')->willReturn($this->collection);
+        $this->collection->method('addFieldToFilter')->willReturn($this->collection);
         $this->collection->method('setOrder')->willReturn($this->collection);
 
         $this->getStateByStatus = $this->createMock(GetStateByStatus::class);
         $this->order = $this->createMock(Order::class);
 
+        $this->ruleDateTimeValidator = $this->createMock(RuleDateTimeValidator::class);
+        $this->ruleDateTimeValidator->method('canBeApplied')->willReturn(true);
+
         $this->subject = new RulesProcessor(
             $this->collectionFactory,
-            $this->getStateByStatus
+            $this->getStateByStatus,
+            $this->ruleDateTimeValidator
         );
     }
 

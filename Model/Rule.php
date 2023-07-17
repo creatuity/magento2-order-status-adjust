@@ -60,4 +60,14 @@ class Rule extends AbstractModel implements RuleInterface
     {
         return $formName . 'rule_conditions_fieldset_' . $this->getId();
     }
+
+    public function getFromDate(): ?string
+    {
+        return $this->getData('from_date');
+    }
+
+    public function getToDate(): ?string
+    {
+        return $this->getData('to_date');
+    }
 }
