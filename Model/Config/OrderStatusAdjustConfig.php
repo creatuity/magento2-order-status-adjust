@@ -10,6 +10,7 @@ use Magento\Store\Model\ScopeInterface;
 class OrderStatusAdjustConfig
 {
     private const XML_PATH_SALES_ORDER_STATUS_ADJUST_ENABLED = 'sales/order_status_adjust/enabled';
+    private const XML_PATH_SALES_ORDER_STATUS_ADJUST_COMMENT = 'sales/order_status_adjust/order_comment';
 
     private bool $isEnabled = true;
 
@@ -37,6 +38,14 @@ class OrderStatusAdjustConfig
     {
         return $this->scopeConfig->isSetFlag(
             self::XML_PATH_SALES_ORDER_STATUS_ADJUST_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    public function isEnableOrderComment(): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_SALES_ORDER_STATUS_ADJUST_COMMENT,
             ScopeInterface::SCOPE_STORE
         );
     }
