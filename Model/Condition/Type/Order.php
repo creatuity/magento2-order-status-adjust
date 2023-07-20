@@ -28,6 +28,14 @@ class Order extends AbstractCondition
     private const ATTRIBUTE_BASE_GRAND_TOTAL = 'base_grand_total';
     private const ATTRIBUTE_BASE_DISCOUNT_AMOUNT = 'base_discount_amount';
     private const ATTRIBUTE_BASE_GIFT_CARDS_AMOUNT = 'base_gift_cards_amount';
+    private const ATTRIBUTE_BASE_TOTAL_CANCELED = 'base_total_canceled';
+    private const ATTRIBUTE_BASE_TOTAL_INVOICED = 'base_total_invoiced';
+    private const ATTRIBUTE_BASE_TOTAL_PAID = 'base_total_paid';
+    private const ATTRIBUTE_BASE_TOTAL_REFUNDED = 'base_total_refunded';
+    private const ATTRIBUTE_BASE_SHIPPING_AMOUNT = 'base_shipping_amount';
+    private const ATTRIBUTE_BASE_SHIPPING_CANCELED = 'base_shipping_canceled';
+    private const ATTRIBUTE_BASE_SHIPPING_INVOICED = 'base_shipping_invoiced';
+    private const ATTRIBUTE_BASE_SHIPPING_REFUNDED = 'base_shipping_refunded';
     private const ATTRIBUTE_TOTAL_QTY_ORDERED = 'total_qty_ordered';
     private const ATTRIBUTE_WEIGHT = 'weight';
     private const ATTRIBUTE_PAYMENT_METHOD ='payment_method';
@@ -77,6 +85,14 @@ class Order extends AbstractCondition
             self::ATTRIBUTE_BASE_GRAND_TOTAL => __('Grand Total'),
             self::ATTRIBUTE_BASE_DISCOUNT_AMOUNT => __('Discount Total'),
             self::ATTRIBUTE_BASE_GIFT_CARDS_AMOUNT => __('Gift Cards Amount'),
+            self::ATTRIBUTE_BASE_TOTAL_CANCELED => __('Total Canceled'),
+            self::ATTRIBUTE_BASE_TOTAL_INVOICED => __('Total Invoiced'),
+            self::ATTRIBUTE_BASE_TOTAL_PAID => __('Total Paid'),
+            self::ATTRIBUTE_BASE_TOTAL_REFUNDED => __('Total Refunded'),
+            self::ATTRIBUTE_BASE_SHIPPING_AMOUNT => __('Shipping Amount'),
+            self::ATTRIBUTE_BASE_SHIPPING_CANCELED => __('Shipping Canceled'),
+            self::ATTRIBUTE_BASE_SHIPPING_INVOICED => __('Shipping Invoiced'),
+            self::ATTRIBUTE_BASE_SHIPPING_REFUNDED => __('Shipping Refunded'),
             self::ATTRIBUTE_TOTAL_QTY_ORDERED => __('Total Items Quantity Ordered'),
             self::ATTRIBUTE_WEIGHT => __('Total Weight'),
             self::ATTRIBUTE_PAYMENT_METHOD => __('Payment Method'),
@@ -117,6 +133,14 @@ class Order extends AbstractCondition
             case self::ATTRIBUTE_BASE_GRAND_TOTAL:
             case self::ATTRIBUTE_BASE_DISCOUNT_AMOUNT:
             case self::ATTRIBUTE_BASE_GIFT_CARDS_AMOUNT:
+            case self::ATTRIBUTE_BASE_TOTAL_CANCELED:
+            case self::ATTRIBUTE_BASE_TOTAL_INVOICED:
+            case self::ATTRIBUTE_BASE_TOTAL_PAID:
+            case self::ATTRIBUTE_BASE_TOTAL_REFUNDED:
+            case self::ATTRIBUTE_BASE_SHIPPING_AMOUNT:
+            case self::ATTRIBUTE_BASE_SHIPPING_CANCELED:
+            case self::ATTRIBUTE_BASE_SHIPPING_INVOICED:
+            case self::ATTRIBUTE_BASE_SHIPPING_REFUNDED:
             case self::ATTRIBUTE_TOTAL_QTY_ORDERED:
             case self::ATTRIBUTE_WEIGHT:
             case self::ATTRIBUTE_TOTAL_ITEM_COUNT:
