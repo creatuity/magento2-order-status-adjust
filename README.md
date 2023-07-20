@@ -41,6 +41,14 @@ Save rule
 | Grand Total                  | base_grand_total             |
 | Discount Total               | base_discount_amount         |
 | Gift Cards Amount            | base_gift_cards_amount       |
+| Total Canceled               | base_total_canceled          |
+| Total Invoiced               | base_total_invoiced          |
+| Total Paid                   | base_total_paid              |
+| Total Refunded               | base_total_refunded          |
+| Shipping Amount              | base_shipping_amount         |
+| Shipping Canceled            | base_shipping_canceled       |
+| Shipping Invoiced            | base_shipping_invoiced       |
+| Shipping Refunded            | base_shipping_refunded       |
 | Total Items Quantity Ordered | total_qty_ordered            |
 | Total Weight                 | weight                       |
 | Payment Method               | payment_method               |
