@@ -22,10 +22,13 @@ Go to Admin Panel -> Stores -> Settings -> Order Status Adjust Module.
 
 Click on "Add New Rule" button located in the upper-right corner of the screen to add new rule.
 
-Fill all required fields:
+Fill all required and possibly optional fields:
 - Enabled - yes/no. Indicates if rule is active. If not - it will not be taken into account during Order updates.
 - Rule Name - text. Human-friendly name of the rule, to easily distinguish what is its purpose.
 - Sort Order - integer. Allows to sort which rules will have precedence. Rules with lower value will be executed as the first ones. If sort order will be same - rule with lower ID will execute as the first one.
+- Date and Time
+  - Start - datetime. Allows to select date and time from which rule will be effective. In Store's timezone.
+  - End - datetime. Allows to select date and time to which rule will be effective. In Store's timezone.
 - Condition - complex. Combination of rules revolving around Orders that can be used to select particular orders and update their status to desired one conditionally.
 - Action (Set Order Status) - select. Select desired order status that should be set if rule will be applied.
 

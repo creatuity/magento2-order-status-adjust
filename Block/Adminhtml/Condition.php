@@ -106,7 +106,7 @@ class Condition extends Generic implements TabInterface
             $fieldsetId,
             [
                 'legend' => __(
-                    'Apply the rule only if the following conditions are met (leave blank for all products).'
+                    'Apply the rule only if the following conditions are met (leave blank for all orders).'
                 ),
             ]
         )->setRenderer(
