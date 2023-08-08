@@ -18,7 +18,7 @@ php bin/magento setup:static-content:deploy
 
 ## Usage
 ### Configuration
-Go to Admin Panel -> Stores -> Settings -> Order Status Adjust Module.
+Go to Admin Panel -> Stores -> Settings -> Order Status Adjust Rules.
 
 Click on "Add New Rule" button located in the upper-right corner of the screen to add new rule.
 
