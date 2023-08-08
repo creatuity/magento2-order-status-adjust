@@ -34,6 +34,17 @@ Fill all required and possibly optional fields:
 
 Save rule
 
+### Troubleshooting
+- My rules are not applying
+  - verify enabled state
+  - verify start and end date (ensure that they're in store timezone)
+- Multiple rules are being applied
+  - verify if your rules are excluding each other
+    - example: Rule A sets "On Hold", Rule B sets "Cancelled". Make sure that Rule A is having condition "Status" is not 'On Hold' and Rule B is having condition "Status" is not 'Canceled' in their Conditions
+- Module is throwing exceptions
+  - Ensure that you're running on PHP 8.2 and Magento 2.4.6+
+  - If issue is related to older version of Magento or PHP - feel free to open Issue and ask
+
 ### Available Conditions
 | Condition                    | Internal Code                |
 |------------------------------|------------------------------|
